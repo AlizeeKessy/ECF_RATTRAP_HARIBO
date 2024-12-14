@@ -1,0 +1,56 @@
+[
+    {
+        "id": "1",
+        "nom": "Balla-Balla",
+        "prix": 2.75,
+        "descriptif1": "Mini bonbons Haribo Balla-Balla",
+        "descriptif2": "Gelée de fruits fourrée de bonbons",
+        "descriptif3": "Commandez le lot de 18 pièces avec une remise de 20%",
+        "categorie": "sachet"
+    },
+    {
+        "id": "2",
+        "nom": "Tropi-Frutti",
+        "prix": 2.30,
+        "descriptif1": "Mini bonbons Haribo Tropi-Frutti",
+        "descriptif2": "Découvrez les bonbons Tropi-Frutti et leurs bons goûts fruités acidulés.",
+        "descriptif3": "Pour un véritable moment de gourmandise !",
+        "categorie": "sachet"
+    },
+    {
+        "id": "3",
+        "nom": "Color-Rado",
+        "prix": 2.50,
+        "descriptif1": "Mini bonbons Haribo Color-Rado",
+        "descriptif2": "Mélange de bonbons au réglisse",
+        "descriptif3": "Gomme de fruits et de guimauve. Sans colorants artificiels. Sachet de 360g",
+        "categorie": "sachet"
+    },
+    {
+        "id": "4",
+        "nom": "Jelly-box",
+        "prix": 14.50,
+        "descriptif1": "Jelly Box Haribo",
+        "descriptif2": "Assortiment de bonbons en gelée",
+        "descriptif3": "Bonbons en gelée, nounours, crocos, boîte de 1 kg",
+        "categorie": "box"
+    },
+    {
+        "id": "5",
+        "nom": "Schtroumpf-box",
+        "prix": 11.50,
+        "descriptif1": "Schtroumpf Box Haribo",
+        "descriptif2": "Mélange de bonbons en gélatine",
+        "descriptif3": "Bonbons en gélatine, mix Schtroumpf, boîte de 1 kg",
+        "categorie": "box"
+    },
+    {
+        "id": "6",
+        "nom": "Bande-box",
+        "prix": 13.50,
+        "descriptif1": "Bande Box Haribo",
+        "descriptif2": "Mélange de bonbons acidulés",
+        "descriptif3": "Bonbons acidulés et sucrés, boîte de 1 kg",
+        "categorie": "box"
+    }
+]

@@ -1,0 +1,43 @@
+body {
+  background-image: url('../img/fond.png');
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #b98c8c;
+}
+
+/*
+form {
+  background: #ffffff9e;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 4000px;
+}
+  */
+
+  .modal {
+    position: fixed;
+    width: 50%;
+    height: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal.hidden {
+    display:none;
+  }
+  
+  
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+  }
