@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afficher des Images Locales</title>
+</head>
+<body>
+    <h1>Afficher des Images Locales</h1>
+
+    <!-- Input de sélection de fichiers -->
+    <label for="fileInput">Sélectionner des images :</label>
+    <input type="file" id="fileInput" accept="image/*" multiple>
+
+    <!-- Conteneur pour afficher les images -->
+    <div id="imageContainer"></div>
+
+    <script>
+        // Sélection des éléments HTML
+        const fileInput = document.getElementById("fileInput");
+        const imageContainer = document.getElementById("imageContainer");
+
+        // Écouter le changement dans l'input file
+        fileInput.addEventListener("change", function() {
+            // Vider le conteneur des images précédentes
+            imageContainer.innerHTML = "";
+
+            // Récupérer les fichiers sélectionnés
+            const files = fileInput.files;
+
+            // Parcourir chaque fichier sélectionné
+            for (const file of files) {
+                // Vérifier si le fichier est une image
+                if (file.type.startsWith("image/")) {
+                    const reader = new FileReader();
+
+                    // Lire le fichier comme une URL
+                    reader.onload = function(event) {
+                        const img = document.createElement("img");
+                        img.src = event.target.result;
+                        
+                        img.style.width = "200px"; // Ajuste la largeur
+                        img.style.margin = "100px"; // Ajoute un espacement
+                        imageContainer.appendChild(img);
+                    };
+
+                    // Lire le fichier
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

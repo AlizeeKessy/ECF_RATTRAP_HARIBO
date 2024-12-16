@@ -1,109 +1,54 @@
+/*
+TIP 1:
+utiliser le event.preventDefault() afin d'eviter le rechargement de la page à chque click sur "Ajouter au panier"
 
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('submitButton');
-  const modal = document.getElementById('modal');
-  const closeModalButton = document.getElementById('close-modal');
-  const resetButton = document.getElementById('reset-button');
+TIP 2:
+Lorsque vous cliquez sur le produit de votre choix, toute la partie rose doit être réinitialisé (partieRose.innerHTML=""; )
+Ainsi le nom du produit, son prix etc..... sont générés à la volée ainsi que le bouton 
+Bouton sur lequel vous mettrez un addEventListener pour appeler la méthode expliqué dans le type 3 avec l'id du produit
 
-  // Fonction pour valider les champs
-  /*const validateField = (input, regex, errorMsg) => {
-  const errorSpan = document.getElementById(`error-${input.id}`);
-  if (!regex.test(input.value)) {
-  errorSpan.textContent = errorMsg;
-  return false;
+TIP 3:
+Pour faire le panier, se fier au code ci-dessous:
+
+*/
+
+// Panier initialisé comme un objet vide
+let cart = {};
+
+// Fonction pour ajouter un produit au panier
+function addToCart(productId) {
+ 
+  const product = ....; // faire un find dans votre json pour recupérer le produit voulu
+
+  // Si le produit est déjà dans le panier, on augmente la quantité
+  if (cart[productId]) {
+    cart[productId].quantity += 1;
   } else {
-  errorSpan.textContent = '';
-  return true;
-  };*/
-});
+    // Sinon, on l'ajoute avec une quantité initiale de 1
+    cart[productId] = {
+      name: product.name,
+      price: product.price,
+      quantity: 1
+    };
+  }
 
+  console.log(`Produit ajouté: ${product.name}`);
+}
 
+// Fonction pour calculer le total du panier et afficher les détails
+function displayCart() {
+  let totalAmount = 0;
 
-  const nameInput = document.getElementById('lname');
-  const firstnameInput = document.getElementById('fname');
-  const regexVerifName = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]{3,}$/;
-  const dateNaissance = document.getElementById('date-naissance');
-  const regexVerifDateNaiss =  /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/;
-  const eMail = document.getElementById('email');
-  const regexFormatEmail =  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const codeConfidentiel = document.getElementById('code confidentiel');
-  const regexFormatCodeConfid = /^FR\d{5}[A-Z.\-_]{3}x$/;
+  console.log("Contenu du panier:");
+  for (const productId in cart) {
+    const item = cart[productId];
+    const totalItemPrice = item.quantity * item.price;
+    totalAmount += totalItemPrice;
 
+    console.log(
+      `${item.quantity} ${item.name}(s) pour un prix total de ${totalItemPrice.toFixed(2)} euros`
+    );
+  }
 
-
-  submitButton.addEventListener('click', (event) => {
-    event.preventDefault(); // Empêche la soumission par défaut
-
-              // Contrôle du nom et prénom
-              document.getElementById('lname').addEventListener('input', (e) => {
-              e.target.value = e.target.value.toUpperCase();
-              });
-
-              document.getElementById('fname').addEventListener('input', (e) => {
-              e.target.value = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase();
-          });
-              const nameQuery = nameInput.value.trim();
-              const firstnameQuery = firstnameInput.value.trim();
-              const datenaissanceQuery = dateNaissance.value.trim();
-              const emailQuery = eMail.value.trim();
-              const codeconfidQuery = codeConfidentiel.value.trim();
-
-
-              // Vérification des champs avec la regex
-              if (!regexVerifName.test(nameQuery)) {
-                  alert('3 caractères alphanumériques au minimum pour le Nom!!!');
-                  event.preventDefault(); // Empêche la soumission du formulaire
-                  return;
-              }
-
-              // Vérification des champs avec la regex
-              if (!regexVerifName.test(firstnameQuery)) {
-                  alert('3 caractères alphanumériques au minimum pour le Prenom!!!');
-                  event.preventDefault(); // Empêche la soumission du formulaire
-                  return;
-              }
-
-
-              if (!regexVerifDateNaiss.test(datenaissanceQuery)) {
-                  alert('Format Date non valide \nFormat date valide : jj/mm/aaaa');
-                  event.preventDefault(); // Empêche la soumission du formulaire
-                 return;
-              }
-
-              if (!regexFormatEmail.test(emailQuery)) {
-                  alert('Format e-mail non valide');
-                  event.preventDefault(); // Empêche la soumission du formulaire
-                 return;
-              }
-
-              if (!regexFormatCodeConfid.test(codeconfidQuery)) {
-                  alert('Format Code Confidentiel non valide');
-                  event.preventDefault(); // Empêche la soumission du formulaire
-                 return;
-              }
-              else {
-                modal.classList.remove('hidden');
-              }
-            
-
-
-        // Si tout est valide, continuer la soumission
-         //alert('Les données sont valides, le formulaire peut être soumis.');
-
-
-        /* if (nameQuery && firstnameQuery && datenaissanceQuery && emailQuery && codeconfidQuery) {
-          modal.classList.remove('hidden');
-          }*/
-        });
-
-
-         // Fermeture de la modale
-closeModalButton.addEventListener('click', () => {
-modal.classList.add('hidden');
-form.submit();
-});
-
-// Réinitialisation du formulaire
-resetButton.addEventListener('click', () => {
-document.querySelectorAll('.error-message').forEach((span) => (span.textContent = ''));
-});
+  console.log(`Somme totale = ${totalAmount.toFixed(2)} euros`);
+}
