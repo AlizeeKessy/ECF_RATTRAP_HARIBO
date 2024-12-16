@@ -3,50 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Afficher des Images Locales</title>
+    <title>Afficher des images avec select</title>
 </head>
 <body>
-    <h1>Afficher des Images Locales</h1>
+    <h1>Choisissez une image à afficher</h1>
 
-    <!-- Input de sélection de fichiers -->
-    <label for="fileInput">Sélectionner des images :</label>
-    <input type="file" id="fileInput" accept="image/*" multiple>
+    <!-- Menu déroulant -->
+    <label for="imageSelect">Sélectionnez une image :</label>
+    <select id="imageSelect">
+        <option value="" selected>-- Choisir une image --</option>
+        <option value="img/Balla-Balla.png">Image 1</option>
+        <option value="img/Color-Rado.png">Image 2</option>
+        <option value="img/Tropi-Frutti.png">Image 3</option>
+    </select>
 
-    <!-- Conteneur pour afficher les images -->
-    <div id="imageContainer"></div>
+    <!-- Conteneur pour l'image -->
+    <div id="imageContainer" style="margin-top: 20px;">
+        <img id="displayedImage" src="" alt="Image affichée" style="max-width: 300px; display: none;">
+    </div>
 
     <script>
-        // Sélection des éléments HTML
-        const fileInput = document.getElementById("fileInput");
-        const imageContainer = document.getElementById("imageContainer");
+        // Récupération des éléments
+        const selectElement = document.getElementById("imageSelect");
+        const displayedImage = document.getElementById("displayedImage");
 
-        // Écouter le changement dans l'input file
-        fileInput.addEventListener("change", function() {
-            // Vider le conteneur des images précédentes
-            imageContainer.innerHTML = "";
+        // Écouteur d'événement pour le changement de sélection
+        selectElement.addEventListener("change", function() {
+            const selectedValue = selectElement.value; // Valeur de l'option sélectionnée
 
-            // Récupérer les fichiers sélectionnés
-            const files = fileInput.files;
-
-            // Parcourir chaque fichier sélectionné
-            for (const file of files) {
-                // Vérifier si le fichier est une image
-                if (file.type.startsWith("image/")) {
-                    const reader = new FileReader();
-
-                    // Lire le fichier comme une URL
-                    reader.onload = function(event) {
-                        const img = document.createElement("img");
-                        img.src = event.target.result;
-                        
-                        img.style.width = "200px"; // Ajuste la largeur
-                        img.style.margin = "100px"; // Ajoute un espacement
-                        imageContainer.appendChild(img);
-                    };
-
-                    // Lire le fichier
-                    reader.readAsDataURL(file);
-                }
+            if (selectedValue) {
+                // Afficher l'image sélectionnée
+                displayedImage.src = selectedValue;
+                displayedImage.style.display = "block";
+            } else {
+                // Cacher l'image si aucune option n'est sélectionnée
+                displayedImage.style.display = "none";
             }
         });
     </script>
