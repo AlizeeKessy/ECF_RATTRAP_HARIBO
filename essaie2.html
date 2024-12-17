@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choix d'emballage de bonbons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        select {
+            padding: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        #imageContainer img {
+            width: 150px;
+            margin: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+
+        #imageContainer img.selected {
+            border: 2px solid green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choisissez votre type d'emballage de bonbons</h1>
+
+    <!-- Menu déroulant pour sélectionner le type d'emballage -->
+    <label for="packagingSelect">Type d'emballage :</label>
+    <select id="packagingSelect">
+        <option value="" selected>-- Sélectionnez un emballage --</option>
+        <option value="sachet">Sachet</option>
+        <option value="boite">Boîte</option>
+    </select>
+
+    <!-- Conteneur pour afficher les images de bonbons -->
+    <div id="imageContainer"></div>
+
+    <script>
+        // Références aux éléments HTML
+        const packagingSelect = document.getElementById("packagingSelect");
+        const imageContainer = document.getElementById("imageContainer");
+
+        // Données des images de bonbons en sachet et en boîte
+        const bonbons = {
+            sachet: [
+                { src: "img/Balla-Balla.png", alt: "Bonbon en sachet 1" },
+                { src: "sachet2.jpg", alt: "Bonbon en sachet 2" },
+                { src: "sachet3.jpg", alt: "Bonbon en sachet 3" }
+            ],
+            boite: [
+                { src: "img/Schtroumpf-box.png", alt: "Bonbon en boîte 1" },
+                { src: "boite2.jpg", alt: "Bonbon en boîte 2" },
+                { src: "boite3.jpg", alt: "Bonbon en boîte 3" }
+            ]
+        };
+
+        // Écouteur d'événement pour le changement de sélection
+        packagingSelect.addEventListener("change", function () {
+            const selectedValue = packagingSelect.value;
+
+            // Effacer les images précédentes
+            imageContainer.innerHTML = "";
+
+            // Vérifier si un type d'emballage a été sélectionné
+            if (selectedValue && bonbons[selectedValue]) {
+                // Afficher les images correspondant au type d'emballage sélectionné
+                bonbons[selectedValue].forEach(bonbon => {
+                    const img = document.createElement("img");
+                    img.src = bonbon.src; // Source de l'image
+                    img.alt = bonbon.alt; // Texte alternatif
+                    img.title = bonbon.alt; // Info-bulle
+
+                    // Ajouter un événement pour sélectionner/désélectionner l'image
+                    img.addEventListener("click", () => {
+                        img.classList.toggle("selected");
+                    });
+
+                    // Ajouter l'image au conteneur
+                    imageContainer.appendChild(img);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

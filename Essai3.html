@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panier d'Achat Haribo</title>
+    <style>
+        /* Styles de base */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        select {
+            padding: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        #imageContainer img {
+            width: 150px;
+            margin: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+
+        #imageContainer img.selected {
+            border: 2px solid green;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Panier d'Achat Haribo</h1>
+    </header>
+    <main>
+        <section class="products">
+            <div class="category-selector">
+                <label for="categories">Catégories :</label>
+                <select id="categories">
+                    <option value="sachets">Sachets</option>
+                    <option value="boites">Boîtes</option>
+                </select>
+            </div>
+            <div class="product-display">
+                <!-- Les produits seront affichés ici -->
+            </div>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const categories = document.getElementById('categories');
+            const productDisplay = document.querySelector('.product-display');
+            const products = {
+                sachets: [
+                    { image: 'img/Balla-Balla.png', name: 'Sachet 1' },
+                    { image: 'path/to/sachet2.jpg', name: 'Sachet 2' },
+                    { image: 'path/to/sachet3.jpg', name: 'Sachet 3' }
+                ],
+                boites: [
+                    { image: 'img/Schtroumpf-box.png', name: 'Boîte 1' },
+                    { image: 'path/to/boite2.jpg', name: 'Boîte 2' },
+                    { image: 'path/to/boite3.jpg', name: 'Boîte 3' }
+                ]
+            };
+
+            function loadProducts(category) {
+                productDisplay.innerHTML = '';
+                products[category].forEach(product => {
+                    const img = document.createElement('img');
+                    img.src = product.image;
+                    img.alt = product.name;
+                    img.classList.add('product-thumbnail');
+                    productDisplay.appendChild(img);
+                });
+                activateFirstProduct();
+            }
+
+            function activateFirstProduct() {
+                const firstProduct = productDisplay.querySelector('img');
+                if (firstProduct) {
+                    firstProduct.classList.add('active');
+                }
+            }
+
+            categories.addEventListener('change', () => {
+                loadProducts(categories.value);
+            });
+
+            loadProducts('sachets'); // Charger les sachets par défaut
+        });
+    </script>
+</body>
+</html>
