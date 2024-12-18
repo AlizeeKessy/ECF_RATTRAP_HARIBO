@@ -1,54 +1,45 @@
-/*
-TIP 1:
-utiliser le event.preventDefault() afin d'eviter le rechargement de la page à chque click sur "Ajouter au panier"
 
-TIP 2:
-Lorsque vous cliquez sur le produit de votre choix, toute la partie rose doit être réinitialisé (partieRose.innerHTML=""; )
-Ainsi le nom du produit, son prix etc..... sont générés à la volée ainsi que le bouton 
-Bouton sur lequel vous mettrez un addEventListener pour appeler la méthode expliqué dans le type 3 avec l'id du produit
+        // importer mes éléments HTML
+        let emballage = document.getElementById("emballage");
+        let imageArea = document.getElementById("imageArea");
 
-TIP 3:
-Pour faire le panier, se fier au code ci-dessous:
+        // Sources des images de bonbons en sachet et en boîte sous forme de liste
+        let bonbons = {
+            sachet: [
+                { src: "img/Balla-Balla.png", alt: "Bonbon en sachet 1" },
+                { src: "img/Color-Rado.png", alt: "Bonbon en sachet 2" },
+                { src: "img/Tropi-Frutti.png", alt: "Bonbon en sachet 3" }
+            ],
+            boite: [
+                { src: "img/Schtroumpf-box.png", alt: "Bonbon en boîte 1" },
+                { src: "img/boite2.Bande-box.png", alt: "Bonbon en boîte 2" },
+                { src: "img/Jelly-box.png", alt: "Bonbon en boîte 3" }
+            ]
+        };
 
-*/
+        // Écouteur d'événement pour le changement de sélection
+        emballage.addEventListener("change", function () {
+            let liste = emballage.value;
 
-// Panier initialisé comme un objet vide
-let cart = {};
+            // Effacer les images précédentes
+            imageArea.innerHTML = "";
 
-// Fonction pour ajouter un produit au panier
-function addToCart(productId) {
- 
-  const product = ....; // faire un find dans votre json pour recupérer le produit voulu
+            // Vérifier si un type d'emballage a été sélectionné
+            if (liste && bonbons[liste]) {
+                // Afficher les images correspondant au type d'emballage sélectionné
+                bonbons[liste].forEach(bonbon => {
+                    let img = document.createElement("img");
+                    img.src = bonbon.src; // Source de l'image
+                    img.alt = bonbon.alt; // Texte alternatif
+                    img.title = bonbon.alt; // Info-bulle
 
-  // Si le produit est déjà dans le panier, on augmente la quantité
-  if (cart[productId]) {
-    cart[productId].quantity += 1;
-  } else {
-    // Sinon, on l'ajoute avec une quantité initiale de 1
-    cart[productId] = {
-      name: product.name,
-      price: product.price,
-      quantity: 1
-    };
-  }
+                    // Ajouter un événement pour sélectionner/désélectionner l'image
+                    img.addEventListener("click", () => {
+                        img.classList.toggle("selected");
+                    });
 
-  console.log(`Produit ajouté: ${product.name}`);
-}
-
-// Fonction pour calculer le total du panier et afficher les détails
-function displayCart() {
-  let totalAmount = 0;
-
-  console.log("Contenu du panier:");
-  for (const productId in cart) {
-    const item = cart[productId];
-    const totalItemPrice = item.quantity * item.price;
-    totalAmount += totalItemPrice;
-
-    console.log(
-      `${item.quantity} ${item.name}(s) pour un prix total de ${totalItemPrice.toFixed(2)} euros`
-    );
-  }
-
-  console.log(`Somme totale = ${totalAmount.toFixed(2)} euros`);
-}
+                    // Ajouter l'image au conteneur
+                    imageArea.appendChild(img);
+                });
+            }
+        });
