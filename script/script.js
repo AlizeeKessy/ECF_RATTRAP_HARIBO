@@ -21,7 +21,7 @@
         emballage.addEventListener("change", function () {
             let liste = emballage.value;
 
-            // Effacer les images précédentes
+            // zonne d'affichage des images
             imageArea.innerHTML = "";
 
             // Vérifier si un type d'emballage a été sélectionné

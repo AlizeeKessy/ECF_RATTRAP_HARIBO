@@ -1,5 +1,5 @@
 *{
-  padding: O;
+  padding: 0;
   margin: 0;
 }
 .container {
@@ -7,15 +7,6 @@
   justify-content: center;
 }
 
-h1 {
-  color: #333;
-}
-
-select {
-  padding: 5px;
-  margin-bottom: 20px;
-  font-size: 16px;
-}
 
 #imageArea img {
   width: 150px;
