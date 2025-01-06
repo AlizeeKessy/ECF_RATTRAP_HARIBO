@@ -5,95 +5,163 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panier d'Achat Haribo</title>
     <style>
-        /* Styles de base */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
+        .selected {
+    border: 2px solid #ff0000;
+    transform: scale(1.1);
+}
+#imageArea img{
+  width: 150px;
+  margin: 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.3s;
+}
 
-        h1 {
-            color: #333;
-        }
-
-        select {
-            padding: 5px;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
-
-        #imageContainer img {
-            width: 150px;
-            margin: 10px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: border 0.3s;
-        }
-
-        #imageContainer img.selected {
-            border: 2px solid green;
-        }
+.product-details {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
     </style>
 </head>
 <body>
-    <header>
-        <h1>Panier d'Achat Haribo</h1>
-    </header>
-    <main>
-        <section class="products">
-            <div class="category-selector">
-                <label for="categories">Catégories :</label>
-                <select id="categories">
-                    <option value="sachets">Sachets</option>
-                    <option value="boites">Boîtes</option>
-                </select>
-            </div>
-            <div class="product-display">
-                <!-- Les produits seront affichés ici -->
-            </div>
-        </section>
-    </main>
+    <select id="emballage">
+        <option value="">Choisissez un type d'emballage</option>
+        <option value="sachet">Sachet</option>
+        <option value="boite">Boîte</option>
+    </select>
+    
+    <div id="imageArea"></div>
+    <div id="imageArea2"></div>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const categories = document.getElementById('categories');
-            const productDisplay = document.querySelector('.product-display');
-            const products = {
-                sachets: [
-                    { image: 'img/Balla-Balla.png', name: 'Sachet 1' },
-                    { image: 'path/to/sachet2.jpg', name: 'Sachet 2' },
-                    { image: 'path/to/sachet3.jpg', name: 'Sachet 3' }
-                ],
-                boites: [
-                    { image: 'img/Schtroumpf-box.png', name: 'Boîte 1' },
-                    { image: 'path/to/boite2.jpg', name: 'Boîte 2' },
-                    { image: 'path/to/boite3.jpg', name: 'Boîte 3' }
-                ]
-            };
+       // importer mes éléments HTML
+const emballage = document.getElementById("emballage");
+const imageArea = document.getElementById("imageArea");
+const imageArea2 = document.getElementById("imageArea2");
 
-            function loadProducts(category) {
-                productDisplay.innerHTML = '';
-                products[category].forEach(product => {
-                    const img = document.createElement('img');
-                    img.src = product.image;
-                    img.alt = product.name;
-                    img.classList.add('product-thumbnail');
-                    productDisplay.appendChild(img);
+// Charger les données JSON
+const produitsData = [  {
+        "id": "1",
+        "nom": "Balla-Balla",
+        "prix": 2.75,
+        "descriptif1": "Mini bonbons Haribo Balla-Balla",
+        "descriptif2": "Gelée de fruits fourrée de bonbons",
+        "descriptif3": "Commandez le lot de 18 pièces avec une remise de 20%",
+        "categorie": "sachet"
+    },
+    {
+        "id": "2",
+        "nom": "Tropi-Frutti",
+        "prix": 2.30,
+        "descriptif1": "Mini bonbons Haribo Tropi-Frutti",
+        "descriptif2": "Découvrez les bonbons Tropi-Frutti et leurs bons goûts fruités acidulés.",
+        "descriptif3": "Pour un véritable moment de gourmandise !",
+        "categorie": "sachet"
+    },
+    {
+        "id": "3",
+        "nom": "Color-Rado",
+        "prix": 2.50,
+        "descriptif1": "Mini bonbons Haribo Color-Rado",
+        "descriptif2": "Mélange de bonbons au réglisse",
+        "descriptif3": "Gomme de fruits et de guimauve. Sans colorants artificiels. Sachet de 360g",
+        "categorie": "sachet"
+    },
+    {
+        "id": "4",
+        "nom": "Jelly-box",
+        "prix": 14.50,
+        "descriptif1": "Jelly Box Haribo",
+        "descriptif2": "Assortiment de bonbons en gelée",
+        "descriptif3": "Bonbons en gelée, nounours, crocos, boîte de 1 kg",
+        "categorie": "box"
+    },
+    {
+        "id": "5",
+        "nom": "Schtroumpf-box",
+        "prix": 11.50,
+        "descriptif1": "Schtroumpf Box Haribo",
+        "descriptif2": "Mélange de bonbons en gélatine",
+        "descriptif3": "Bonbons en gélatine, mix Schtroumpf, boîte de 1 kg",
+        "categorie": "box"
+    },
+    {
+        "id": "6",
+        "nom": "Bande-box",
+        "prix": 13.50,
+        "descriptif1": "Bande Box Haribo",
+        "descriptif2": "Mélange de bonbons acidulés",
+        "descriptif3": "Bonbons acidulés et sucrés, boîte de 1 kg",
+        "categorie": "box"
+    }
+    // Votre JSON ici
+];
+
+const bonbons = {
+    boite: [
+        { src: "img/Schtroumpf-box.png", alt: "Schtroumpf-box 1" },
+        { src: "img/Bande-box.png", alt: "Haribo Bande-box." },
+        { src: "img/Jelly-box.png", alt: "Haribo Jelly-box." }
+    ],
+    sachet: [
+        { src: "img/Balla-Balla.png", alt: "Haribo Balla-Balla" },
+        { src: "img/Color-Rado.png", alt: "Haribo Color-Rado 2" },
+        { src: "img/Tropi-Frutti.png", alt: "Haribo Tropi-Frutti" }
+    ]
+};
+
+// Fonction pour trouver les informations du produit dans le JSON
+function trouverInfosProduit(imgSrc) {
+    const nomFichier = imgSrc.split('/').pop().split('.')[0];
+    return produitsData.find(produit => produit.nom.toLowerCase() === nomFichier.toLowerCase());
+}
+
+// Fonction pour afficher les détails du produit
+function afficherDetailsProduit(produit) {
+    imageArea2.innerHTML = `
+        <div class="product-details">
+            <h2>${produit.nom}</h2>
+            <p>Prix: ${produit.prix}€</p>
+            <p>${produit.descriptif1}</p>
+            <p>${produit.descriptif2}</p>
+            <p>${produit.descriptif3}</p>
+        </div>
+    `;
+}
+
+emballage.addEventListener("change", function () {
+    const liste = emballage.value;
+    imageArea.innerHTML = "";
+    imageArea2.innerHTML = ""; // Nettoyer la zone de détails
+
+    if (liste && bonbons[liste]) {
+        bonbons[liste].forEach(bonbon => {
+            const img = document.createElement("img");
+            img.src = bonbon.src;
+            img.alt = bonbon.alt;
+            img.title = bonbon.alt;
+            
+            img.addEventListener("click", () => {
+                // Désélectionner toutes les images
+                document.querySelectorAll('#imageArea img').forEach(img => {
+                    img.classList.remove('selected');
                 });
-                activateFirstProduct();
-            }
-
-            function activateFirstProduct() {
-                const firstProduct = productDisplay.querySelector('img');
-                if (firstProduct) {
-                    firstProduct.classList.add('active');
+                
+                // Sélectionner l'image cliquée
+                img.classList.add('selected');
+                
+                // Trouver et afficher les informations du produit
+                const produitInfo = trouverInfosProduit(img.src);
+                if (produitInfo) {
+                    afficherDetailsProduit(produitInfo);
                 }
-            }
-
-            categories.addEventListener('change', () => {
-                loadProducts(categories.value);
             });
-
-            loadProducts('sachets'); // Charger les sachets par défaut
+            
+            imageArea.appendChild(img);
         });
+    }
+});
     </script>
 </body>
 </html>

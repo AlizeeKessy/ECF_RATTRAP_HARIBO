@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .selected {
+    border: 2px solid #ff0000;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+.product-details {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.product-details img {
+    max-width: 200px;
+    display: block;
+    margin: 0 auto 15px;
+}
+
+.product-details h2 {
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.price {
+    font-size: 1.2em;
+    color: #e44d26;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.description p {
+    margin: 8px 0;
+    line-height: 1.4;
+}
+    </style>
+</head>
+<body>
+    <select id="emballage">
+        <option value="">Choisissez un type d'emballage</option>
+        <option value="sachet">Sachet</option>
+        <option value="boite">Boîte</option>
+    </select>
+    
+    <div id="imageArea"></div>
+    <div id="imageArea2"></div>
+
+    <script>
+        // importer mes éléments HTML
+const emballage = document.getElementById("emballage");
+const imageArea = document.getElementById("imageArea");
+const imageArea2 = document.getElementById("imageArea2");
+
+// Chargement du fichier JSON
+let produitsData = [];
+fetch('json/haribo.json')  // Remplacez par le nom exact de votre fichier JSON
+    .then(response => response.json())
+    .then(data => {
+        produitsData = data;
+    })
+    .catch(error => console.error('Erreur de chargement du JSON:', error));
+
+const bonbons = {
+    boite: [
+        { src: "img/Schtroumpf-box.png", alt: "Schtroumpf-box 1" },
+        { src: "img/Bande-box.png", alt: "Haribo Bande-box." },
+        { src: "img/Jelly-box.png", alt: "Haribo Jelly-box." }
+    ],
+    sachet: [
+        { src: "img/Balla-Balla.png", alt: "Haribo Balla-Balla" },
+        { src: "img/Color-Rado.png", alt: "Haribo Color-Rado 2" },
+        { src: "img/Tropi-Frutti.png", alt: "Haribo Tropi-Frutti" }
+    ]
+};
+
+// Fonction pour trouver les informations du produit
+function trouverInfosProduit(imgSrc) {
+    const nomFichier = imgSrc.split('/').pop().split('.')[0];
+    return produitsData.find(produit => 
+        produit.nom.toLowerCase().replace(/[-\s]/g, '') === 
+        nomFichier.toLowerCase().replace(/[-\s]/g, '')
+    );
+}
+
+// Fonction pour afficher les détails du produit
+function afficherDetailsProduit(produit, imgSrc) {
+    imageArea2.innerHTML = `
+        <div class="product-details">
+            <img src="${imgSrc}" alt="${produit.nom}" class="product-image">
+            <h2>${produit.nom}</h2>
+            <p class="price">Prix : ${produit.prix}€</p>
+            <div class="description">
+                <p>${produit.descriptif1}</p>
+                <p>${produit.descriptif2}</p>
+                <p>${produit.descriptif3}</p>
+            </div>
+        </div>
+    `;
+}
+
+emballage.addEventListener("change", function () {
+    const liste = emballage.value;
+    imageArea.innerHTML = "";
+    imageArea2.innerHTML = "";
+
+    if (liste && bonbons[liste]) {
+        bonbons[liste].forEach(bonbon => {
+            const img = document.createElement("img");
+            img.src = bonbon.src;
+            img.alt = bonbon.alt;
+            img.title = bonbon.alt;
+            
+            img.addEventListener("click", () => {
+                // Désélectionner toutes les images
+                document.querySelectorAll('#imageArea img').forEach(img => {
+                    img.classList.remove('selected');
+                });
+                
+                // Sélectionner l'image cliquée
+                img.classList.add('selected');
+                
+                // Trouver et afficher les informations du produit
+                const produitInfo = trouverInfosProduit(img.src);
+                if (produitInfo) {
+                    afficherDetailsProduit(produitInfo, img.src);
+                }
+            });
+            
+            imageArea.appendChild(img);
+        });
+    }
+});
+    </script>
+</body>
+</html>

@@ -14,28 +14,41 @@
 
 <body class=" bg-red1">
 
-  <section class="position-absolute top-50 start-50 translate-middle container bg-green1" style="width: 1100px;height: 500px;">
+  <section class="position-absolute top-50 start-50 translate-middle container bg-green1"
+    style="width: 1100px;height: 500px;">
     <article class="article1 bg-orange1" style="width: 550px;height: 500px;">
+
       <div>
-      </div>
-      <div>
-        <select id="emballage" class="form-select green1" aria-label="Default select example">
-          <option value="sachet">Sachets</option>
-          <option selected value="boîte">Boites</option>
-        </select>
+        <div class="imageArea">
+          <div class="imagearea" id="imageArea2"></div>
+        </div>
+        
+        <br><br><div class="imageArea2">
+          <select id="emballage" class="form-select bg-green1" aria-label="Default select example">
+            <option value="sachet">Sachets</option>
+            <option selected value="boite">Boites</option>
+          </select>
+        </div>
         <div id="imageArea"></div>
       </div>
 
     </article>
     <article class="article2 bg-pink1" style="width: 550px;height: 500px;">
-      <div>
+
+      </div>
+      <div class="text-white" id="textArea">
       </div>
       <div></div>
 
-      <div>
-        <label class="text-white" for="number">Quantité</label>
-        <input type="number">
-      </div>
+      <div class="textArea1">
+        <div id="textArea2"> </div>
+        <div>
+          
+        </div>
+        <!-- <br><label id="label" class="text-white" for="number">Quantité</label><br>
+        <input id="input" class="form-control green1" type="number" value="0" min="1">
+      </div>-->
+      <div id="panier"></div>
 
     </article>
   </section>
